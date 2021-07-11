@@ -69,6 +69,7 @@ def news_command_message(user_id, list):
         text += list[i].split('/')[3]+ '/' + list[i].split('/')[4] + " :\n" + URLFunctions.get_news(repos_url=list[i])
     bot.send_message(user_id, text, disable_web_page_preview=1)
 
+#Сообщение, после вызова команды /recommendations
 def rec_command_message(user_id, text):
     bot.send_message(user_id, text, disable_web_page_preview=1)
 
