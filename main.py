@@ -1,5 +1,5 @@
 from config import config
-import telebotgit
+import telebot
 from database import DB_Functions
 import Notifications
 import time
