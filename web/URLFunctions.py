@@ -2,7 +2,7 @@ import random
 import re
 import datetime
 import requests
-
+import DataCorrection
 
 #!!!---check-функции---!!!
 
@@ -132,8 +132,8 @@ def get_news(repos_url):
         text += "Новостей нет\n"
     return text
 
-
-def get_rec_from_group(repos_url):
+#Функция, которая получает ссылку-рекомендацию(если владелец репозитория организация)
+def get_rec_from_group(repos_url,id_user):
     headers = {
         'Content-type': 'application/json',
     }
@@ -145,12 +145,16 @@ def get_rec_from_group(repos_url):
     response = requests.get(url, headers=headers)
 
     for i in response.json():
-        if repos_url.split('/')[3]+'/' +repos_url.split('/')[4] != i['full_name']:
+        if  i['html_url'] + '/' not in DataCorrection.get_py_list(user_id=id_user):
             a.append(i['html_url'])
 
-    return a[random.randint(0,len(a))]
+    if (len(a) == 0):
+        return "Вы и так подписаны на все репозитории " + repos_url.split('/')[3]
+    else:
+        return a[random.randint(0, len(a))]
 
-def get_rec_from_users(repos_url):
+#Функция, которая получает ссылку-рекомендацию(если владелец репозитория пользователь)
+def get_rec_from_users(repos_url,user_id):
     headers = {
         'Content-type': 'application/json',
     }
@@ -162,7 +166,10 @@ def get_rec_from_users(repos_url):
     response = requests.get(url, headers=headers)
 
     for i in response.json():
-        if repos_url.split('/')[4] != i['name']:
+        if i['html_url'] + '/' not in DataCorrection.get_py_list(user_id=user_id):
             a.append(i['html_url'])
 
-    return a[random.randint(0, len(a))]
+    if (len(a) == 0):
+        return "Вы и так подписаны на все репозитории " + repos_url.split('/')[3]
+    else:
+        return a[random.randint(0, len(a))]
