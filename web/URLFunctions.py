@@ -133,7 +133,7 @@ def get_news(repos_url):
     return text
 
 #Функция, которая получает ссылку-рекомендацию(если владелец репозитория организация)
-def get_rec_from_group(repos_url,id_user):
+def get_rec_from_group(repos_url,id_user,list):
     headers = {
         'Content-type': 'application/json',
     }
@@ -145,7 +145,7 @@ def get_rec_from_group(repos_url,id_user):
     response = requests.get(url, headers=headers)
 
     for i in response.json():
-        if  i['html_url'] + '/' not in DataCorrection.get_py_list(user_id=id_user):
+        if  i['html_url'] + '/' not in list:
             a.append(i['html_url'])
 
     if (len(a) == 0):
@@ -154,7 +154,7 @@ def get_rec_from_group(repos_url,id_user):
         return a[random.randint(0, len(a))]
 
 #Функция, которая получает ссылку-рекомендацию(если владелец репозитория пользователь)
-def get_rec_from_users(repos_url,user_id):
+def get_rec_from_users(repos_url,user_id,list):
     headers = {
         'Content-type': 'application/json',
     }
@@ -166,7 +166,7 @@ def get_rec_from_users(repos_url,user_id):
     response = requests.get(url, headers=headers)
 
     for i in response.json():
-        if i['html_url'] + '/' not in DataCorrection.get_py_list(user_id=user_id):
+        if i['html_url'] + '/' not in list:
             a.append(i['html_url'])
 
     if (len(a) == 0):

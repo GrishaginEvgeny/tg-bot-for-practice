@@ -71,13 +71,13 @@ def recommendations(user_id):
         if (len(list) < 3):
             for l in list:
                 if (URLFunctions.check_for_repos_owner(l)):
-                    text += URLFunctions.get_rec_from_group(repos_url=l, id_user= user_id) + '\n'
+                    text += URLFunctions.get_rec_from_group(repos_url=l, id_user= user_id,list=list) + '\n'
                 else:
-                    text += URLFunctions.get_rec_from_users(repos_url=l, user_id=user_id) + '\n'
+                    text += URLFunctions.get_rec_from_users(repos_url=l, user_id=user_id,list=list) + '\n'
         else:
             for i in range(0, 3, 1):
                 if (URLFunctions.check_for_repos_owner(list[i])):
-                    text += URLFunctions.get_rec_from_group(repos_url=list[i],id_user= user_id) + '\n'
+                    text += URLFunctions.get_rec_from_group(repos_url=list[i],id_user= user_id,list=list) + '\n'
                 else:
-                    text += URLFunctions.get_rec_from_users(repos_url=list[i],user_id=user_id) + '\n'
+                    text += URLFunctions.get_rec_from_users(repos_url=list[i],user_id=user_id,list=list) + '\n'
         Notifications.rec_command_message(user_id=user_id, text=text)
