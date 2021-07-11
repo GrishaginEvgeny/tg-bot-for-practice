@@ -116,16 +116,6 @@ def get_news(repos_url):
         'Content-type': 'application/json',
     }
 
-    td = 0
-
-    if (datetime.datetime.utcnow() > datetime.datetime.now()):
-        td = (datetime.datetime.utcnow() - datetime.datetime.now()).seconds / 3600
-        print(td)
-    else:
-        td = (datetime.datetime.now() - datetime.datetime.utcnow()).seconds / 3600
-        print(td)
-    print(datetime.datetime.now())
-
     text =""
 
     url = 'https://api.github.com/repos/' + repos_url.split('/')[3] + '/' + repos_url.split('/')[4] +'/commits'
@@ -135,7 +125,7 @@ def get_news(repos_url):
     for i in response.json():
         date = i['commit']['author']['date'][0:10].split('-')
         time = i['commit']['author']['date'][11:19].split(':')
-        if ((datetime.datetime.now() - (datetime.datetime(int(date[0]), int(date[1]), int(date[2]), int(time[0]), int(time[1]), int(time[2])) + datetime.timedelta(hours=td))).days < 1):
+        if ((datetime.datetime.utcnow() - (datetime.datetime(int(date[0]), int(date[1]), int(date[2]), int(time[0]), int(time[1]), int(time[2])))).days < 1):
             text += i['html_url'] +'\n'
 
     return text
