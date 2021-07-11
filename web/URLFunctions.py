@@ -2,7 +2,6 @@ import random
 import re
 import datetime
 import requests
-import DataCorrection
 
 #!!!---check-функции---!!!
 
@@ -108,7 +107,7 @@ def get_url(repos_url):
                 if (check_url_for_regex(url)):
                     return url
                 else:
-                    return ''
+                    return '4'
 
 #Функция, которая возвращает новости
 def get_news(repos_url):
@@ -145,13 +144,13 @@ def get_rec_from_group(repos_url,id_user,list):
     response = requests.get(url, headers=headers)
 
     for i in response.json():
-        if  i['html_url'] + '/' not in list:
+        if (i['html_url'] + '/') not in list:
             a.append(i['html_url'])
 
     if (len(a) == 0):
         return "Вы и так подписаны на все репозитории " + repos_url.split('/')[3]
     else:
-        return a[random.randint(0, len(a))]
+        return a[random.randint(0, len(a)-1)]
 
 #Функция, которая получает ссылку-рекомендацию(если владелец репозитория пользователь)
 def get_rec_from_users(repos_url,user_id,list):
@@ -166,10 +165,10 @@ def get_rec_from_users(repos_url,user_id,list):
     response = requests.get(url, headers=headers)
 
     for i in response.json():
-        if i['html_url'] + '/' not in list:
+        if (i['html_url'] + '/') not in list:
             a.append(i['html_url'])
 
     if (len(a) == 0):
         return "Вы и так подписаны на все репозитории " + repos_url.split('/')[3]
     else:
-        return a[random.randint(0, len(a))]
+        return a[random.randint(0, len(a) - 1)]
