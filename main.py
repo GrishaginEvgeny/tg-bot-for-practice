@@ -6,7 +6,7 @@ import time
 
 bot = telebot.TeleBot(config.TOKEN_BOT)
 
-#!!!--- Команды ---!!!
+#!!!--- Команды ---!git push heroku master!!
 #Команда /start
 @bot.message_handler(commands=['start'])
 def start_message(message):

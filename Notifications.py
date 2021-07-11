@@ -59,14 +59,14 @@ def empty_list_command_message(user_id):
 def not_empty_list_of_command_message(user_id,list):
     text_of_message = "Репозитории на которые вы подписаны:\n"
     for i in range(0,len(list),1):
-        text_of_message += list[i].split('/')[3]+ " : " + list[i] + "\n"
+        text_of_message += list[i].split('/')[3]+ '/' + list[i].split('/')[4] + " : " + list[i] + "\n"
     bot.send_message(user_id, text_of_message, disable_web_page_preview=1)
 
 #Сообщение, если есть подсписки и вызван /news
 def news_command_message(user_id, list):
     text = ''
     for i in range(0, len(list), 1):
-        text += list[i].split('/')[4]+ " : " + list[i] + "\n" + URLFunctions.get_news(repos_url=list[i])
+        text += list[i].split('/')[3]+ '/' + list[i].split('/')[4] + " :\n" + URLFunctions.get_news(repos_url=list[i])
     bot.send_message(user_id, text, disable_web_page_preview=1)
 
 def rec_command_message(user_id, text):

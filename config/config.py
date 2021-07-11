@@ -1,2 +1,2 @@
 TOKEN_BOT = '1835759299:AAEiiSV5MSH58tQ74xVpVBROlUELb2okmM4'
-DB_DSN = "dbname=d3ldlbetf70qg9 user=httidtaboxvfsv password=8d430aa8cbfb5a6b80d8a6170090d22f7a3230d27694f8513daad3887a070bb0 port=5432 host=ec2-54-78-36-245.eu-west-1.compute.amazonaws.com"
+DB_DSN = "dbname=d14ig219k0ns91 user=cubvfwwaszhrrl password=51b60c9099e1eb63b2b0722cdcd83ab8376ecb9448ae0e970d9c266c286a9936 port=5432 host=ec2-54-227-246-76.compute-1.amazonaws.com"
