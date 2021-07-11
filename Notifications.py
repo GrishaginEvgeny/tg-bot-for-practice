@@ -66,8 +66,8 @@ def not_empty_list_of_command_message(user_id,list):
 def news_command_message(user_id, list):
     text = ''
     for i in range(0, len(list), 1):
-        text += list[i].split('/')[3]+ '/' + list[i].split('/')[4] + " :\n" + URLFunctions.get_news(repos_url=list[i])
-    bot.send_message(user_id, text, disable_web_page_preview=1)
+        text += '<b>' + list[i].split('/')[3]+ '/' + list[i].split('/')[4] + '</b>' + " :\n" + URLFunctions.get_news(repos_url=list[i])
+    bot.send_message(user_id, text, disable_web_page_preview=1,parse_mode='html')
 
 #Сообщение, после вызова команды /recommendations
 def rec_command_message(user_id, text):

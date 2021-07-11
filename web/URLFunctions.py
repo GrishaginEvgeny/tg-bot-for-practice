@@ -128,6 +128,8 @@ def get_news(repos_url):
         if ((datetime.datetime.utcnow() - (datetime.datetime(int(date[0]), int(date[1]), int(date[2]), int(time[0]), int(time[1]), int(time[2])))).days < 1):
             text += i['html_url'] +'\n'
 
+    if text == "":
+        text += "Новостей нет\n"
     return text
 
 
