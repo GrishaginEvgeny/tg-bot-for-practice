@@ -144,8 +144,9 @@ def get_rec_from_group(repos_url,id_user,list):
     response = requests.get(url, headers=headers)
 
     for i in response.json():
-        if (i['html_url'] + '/') not in list:
-            a.append(i['html_url'])
+        for l in list:
+            if (i['html_url'] + '/') != l:
+                a.append(i['html_url'])
 
     if (len(a) == 0):
         return "Вы и так подписаны на все репозитории " + repos_url.split('/')[3]
@@ -165,8 +166,9 @@ def get_rec_from_users(repos_url,user_id,list):
     response = requests.get(url, headers=headers)
 
     for i in response.json():
-        if (i['html_url'] + '/') not in list:
-            a.append(i['html_url'])
+        for l in list:
+            if (i['html_url'] + '/') != l:
+                a.append(i['html_url'])
 
     if (len(a) == 0):
         return "Вы и так подписаны на все репозитории " + repos_url.split('/')[3]
