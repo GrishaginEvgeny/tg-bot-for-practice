@@ -66,8 +66,10 @@ def check_for_repos_owner(repos_url):
     response = requests.get(url, headers=headers)
 
     if(response.json()['owner']['type'] == 'User'):
+        print(response.json()['owner']['type'] + ' : ' + url)
         return False
     else:
+        print(response.json()['owner']['type'] + ' : ' + url)
         return True
 
 #!!!---get-функции---!!!
@@ -141,13 +143,18 @@ def get_rec_from_group(repos_url,id_user,list):
 
     url = 'https://api.github.com/orgs/' + repos_url.split('/')[3] + '/repos'
 
+
     response = requests.get(url, headers=headers)
 
-    for i in response.json():
-        b = i['html_url'] + '/'
-        for l in list:
-            if b != l:
-                a.append(b)
+
+    try:
+        for i in response.json():
+            b = i['html_url'] + '/'
+            for l in list:
+                if b != l:
+                    a.append(b)
+    except Exception as e:
+        print(e.args)
 
     if (len(a) == 0):
         return "Вы и так подписаны на все репозитории " + repos_url.split('/')[3]
@@ -166,11 +173,14 @@ def get_rec_from_users(repos_url,user_id,list):
 
     response = requests.get(url, headers=headers)
 
-    for i in response.json():
-        b = i['html_url'] + '/'
-        for l in list:
-            if b != l:
-                a.append(b)
+    try:
+        for i in response.json():
+            b = i['html_url'] + '/'
+            for l in list:
+                if b != l:
+                    a.append(b)
+    except Exception as e:
+        print(e.args)
 
     if (len(a) == 0):
         return "Вы и так подписаны на все репозитории " + repos_url.split('/')[3]
