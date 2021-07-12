@@ -6,6 +6,9 @@ import requests
 #!!!---check-функции---!!!
 
 #Проверка на гитхабоподобную ссылку
+import Notifications
+
+
 def check_url_for_valid(repos_url):
     flag = False
     if(repos_url.startswith('https://github.com')):
@@ -55,7 +58,7 @@ def check_url_for_existing_repos(repos_url):
     except KeyError:
         return True
 
-#Проверка на то, кто владелец репозитория(группа - return True, пользователь - return False)
+#Проверка на то, кто владелец репозитория(группа - return 2, пользователь - return 1)
 def check_for_repos_owner(repos_url):
     headers = {
         'Content-type': 'application/json',
@@ -64,13 +67,15 @@ def check_for_repos_owner(repos_url):
     url = 'https://api.github.com/repos/' + repos_url.split('/')[3] + '/' + repos_url.split('/')[4]
 
     response = requests.get(url, headers=headers)
-
-    if(response.json()['owner']['type'] == 'User'):
-        print(response.json()['owner']['type'] + ' : ' + url)
-        return False
-    else:
-        print(response.json()['owner']['type'] + ' : ' + url)
-        return True
+    try:
+        print(response.json()['message'])
+        print(url)
+        return 3
+    except:
+        if(response.json()['owner']['type'] == 'User'):
+            return 1
+        elif(response.json()['owner']['type'] == 'Organization'):
+            return 2
 
 #!!!---get-функции---!!!
 
@@ -134,14 +139,19 @@ def get_news(repos_url):
     return text
 
 #Функция, которая получает ссылку-рекомендацию(если владелец репозитория организация)
-def get_rec_from_group(repos_url,id_user,list):
+def get_rec(repos_url,list,flag):
     headers = {
         'Content-type': 'application/json',
     }
+    owner = ''
+    if(flag):
+        owner += 'orgs'
+    else:
+        owner += 'users'
 
     a = []
 
-    url = 'https://api.github.com/orgs/' + repos_url.split('/')[3] + '/repos'
+    url = 'https://api.github.com/' + owner + '/' + repos_url.split('/')[3] + '/repos'
 
 
     response = requests.get(url, headers=headers)
@@ -149,40 +159,12 @@ def get_rec_from_group(repos_url,id_user,list):
 
     try:
         for i in response.json():
-            b = i['html_url'] + '/'
-            for l in list:
-                if b != l:
-                    a.append(b)
+            if i['html_url'] + '/' not in list:
+                    a.append(i['html_url'] + '/')
     except Exception as e:
-        print(e.args)
+        print(e)
 
     if (len(a) == 0):
         return "Вы и так подписаны на все репозитории " + repos_url.split('/')[3]
     else:
         return a[random.randint(0, len(a)-1)]
-
-#Функция, которая получает ссылку-рекомендацию(если владелец репозитория пользователь)
-def get_rec_from_users(repos_url,user_id,list):
-    headers = {
-        'Content-type': 'application/json',
-    }
-
-    a = []
-
-    url = 'https://api.github.com/users/' + repos_url.split('/')[3] + '/repos'
-
-    response = requests.get(url, headers=headers)
-
-    try:
-        for i in response.json():
-            b = i['html_url'] + '/'
-            for l in list:
-                if b != l:
-                    a.append(b)
-    except Exception as e:
-        print(e.args)
-
-    if (len(a) == 0):
-        return "Вы и так подписаны на все репозитории " + repos_url.split('/')[3]
-    else:
-        return a[random.randint(0, len(a) - 1)]

@@ -76,12 +76,16 @@ def recommendations(user_id):
     if(len(list) == 0):
         Notifications.empty_list_command_message(user_id=user_id)
     else:
+        flag = False
         if (len(list) < 3):
             for l in list:
-                if (URLFunctions.check_for_repos_owner(l)):
-                    text += URLFunctions.get_rec_from_group(repos_url=l, id_user= user_id,list=list) + '\n'
-                else:
-                    text += URLFunctions.get_rec_from_users(repos_url=l, user_id=user_id,list=list) + '\n'
+                if(URLFunctions.check_for_repos_owner(repos_url=l) == 3):
+                    Notifications.api_error(user_id=user_id, text='Проблемы с подключением к репозиторию ' + list[l])
+                    flag = True
+                elif (URLFunctions.check_for_repos_owner(repos_url=l) == 2):
+                    text += URLFunctions.get_rec(repos_url=l, flag=True, list=list) + '\n'
+                elif (URLFunctions.check_for_repos_owner(repos_url=l) == 1):
+                    text += URLFunctions.get_rec(repos_url=l, flag=False, list=list) + '\n'
         else:
             a = []
             while len(a) != 3:
@@ -89,8 +93,12 @@ def recommendations(user_id):
                  if b not in a:
                      a.append(b)
             for i in range(0, 3, 1):
-                if (URLFunctions.check_for_repos_owner(list[a[i]])):
-                    text += URLFunctions.get_rec_from_group(repos_url=list[a[i]],id_user= user_id,list=list) + '\n'
-                else:
-                    text += URLFunctions.get_rec_from_users(repos_url=list[a[i]],user_id=user_id,list=list) + '\n'
-        Notifications.rec_command_message(user_id=user_id, text=text)
+                if(URLFunctions.check_for_repos_owner(repos_url=list[a[i]]) == 3):
+                    Notifications.api_error(user_id=user_id, text='Проблемы с подключением к репозиторию ' + list[a[i]])
+                    flag = True
+                elif(URLFunctions.check_for_repos_owner(repos_url=list[a[i]]) == 2):
+                    text += URLFunctions.get_rec(repos_url=list[a[i]],flag=True,list=list) + '\n'
+                elif(URLFunctions.check_for_repos_owner(repos_url=list[a[i]]) == 1):
+                    text += URLFunctions.get_rec(repos_url=list[a[i]],flag=False,list=list) + '\n'
+        if(flag != True):
+            Notifications.rec_command_message(user_id=user_id, text=text)

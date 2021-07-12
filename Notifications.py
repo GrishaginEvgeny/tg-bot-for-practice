@@ -73,3 +73,6 @@ def news_command_message(user_id, list):
 def rec_command_message(user_id, text):
     bot.send_message(user_id, text, disable_web_page_preview=1)
 
+def api_error(user_id,text):
+    bot.send_message(user_id, text , disable_web_page_preview=1)
+
